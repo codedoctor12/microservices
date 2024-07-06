@@ -1,0 +1,116 @@
+version: '4.0'
+services:
+  ## MySQL Docker Compose Config
+
+  tax-prep-db:
+    container_name: postgres-taxprep
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: ${USERNAME}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - ./tax-prep-db:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: always
+
+  ## Mongo Docker Compose Config
+  mongo:
+    container_name: mongo
+    image: mongo:4.4.14-rc0-focal
+    restart: always
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo-data:/data/db
+
+  ## Keycloak Config with Mysql database
+
+  ## Zipkin
+
+  ## Eureka Server
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+
+
+  service-reg:
+    image: ddmdocker/service-reg:latest
+    container_name: service-reg
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+
+
+
+
+  ## Product-Service Docker Compose Config
+  tax-data:
+    container_name: tax-data
+    image: ddmdocker/tax-data:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - spring.data.mongodb.uri=${MONGO_DRIVER}
+    depends_on:
+      - mongo
+      - service-reg
+      - tax-gateway
+
+  ## Order-Service Docker Compose Config
+
+
+  ## Inventory-Service Docker Compose Config
+  tax-prep:
+    container_name:  tax-prep
+    image:  ddmdocker/tax-prep:latest
+    environment:
+     - SPRING_PROFILES_ACTIVE=docker
+     - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+     - prep.secret=${SECRET}
+     - spring.datasource.username=${USERNAME}
+     - spring.datasource.password=${PASSWORD}
+    depends_on:
+      - service-reg
+      - tax-prep-db
+      - tax-gateway
+
+
+
+
+  tax-calc:
+    container_name: tax-calc
+    image: ddmdocker/tax-calc:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/postgres
+    depends_on:
+      - service-reg
+      - tax-prep-db
+      - tax-gateway
+
+
+
+  tax-gateway:
+    image: ddmdocker/tax-gateway:latest
+    container_name: tax-gateway
+    ports:
+      - "8181:8088"
+    expose:
+      - "8181"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - service-reg
+  ## Notification-Service Docker Compose Config
+
+  ## Prometheus
