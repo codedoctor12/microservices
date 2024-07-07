@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_commit_ts" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_dynshmem" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_logical/mappings" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_logical/snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_notify" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_replslot" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_serial" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_stat" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_stat_tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_tblspc" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_twophase" />
+      <excludeFolder url="file://$MODULE_DIR$/tax-prep-db/pg_wal/archive_status" />
+    </content>
+  </component>
+</module>
