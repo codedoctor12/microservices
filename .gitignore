@@ -20,6 +20,14 @@
 *.rar
 *.env
 
+mongo-data
+tax-calc/target
+tax-prep/target
+tax-data/target
+tax-gateway/target
+service-reg/target
+
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
