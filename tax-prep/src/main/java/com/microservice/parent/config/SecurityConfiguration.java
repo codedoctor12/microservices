@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
-
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class SecurityConfiguration {
@@ -28,6 +27,7 @@ private final AuthenticationProvider authenticationProvider;
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/tax-prep/**")
                                 .permitAll()
